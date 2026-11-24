@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#10111b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Student Hub">
+
+  <title>Student Hub</title>
+
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="manifest" href="./manifest.json">
+
+  <link rel="icon" type="image/png" href="./assets/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+</head>
+
+<body>
+
+<div class="app-container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">🎓</div>
+      <div>
+        <h2>Student Hub</h2>
+        <small>Study smarter</small>
+      </div>
+    </div>
+
+    <nav class="navigation">
+      <p class="nav-label">MENU</p>
+
+      <button class="nav-item active" data-page="dashboard">
+        <span>🏠</span> Dashboard
+      </button>
+
+      <button class="nav-item" data-page="tasks">
+        <span>✅</span> My Tasks
+      </button>
+
+      <button class="nav-item" data-page="notes">
+        <span>📝</span> Notes
+      </button>
+
+      <button class="nav-item" data-page="timetable">
+        <span>📅</span> Timetable
+      </button>
+
+      <button class="nav-item" data-page="focus">
+        <span>⏱️</span> Focus Timer
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button id="themeToggle" class="theme-button">
+        🌙 <span>Toggle Theme</span>
+      </button>
+
+      <div class="profile">
+        <div class="avatar" id="profileAvatar">S</div>
+        <div class="profile-info">
+          <strong id="profileName">Student</strong>
+          <small>Student</small>
+        </div>
+        <button id="editNameBtn" class="profile-edit" title="Edit name">✏️</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <button id="menuToggle" class="menu-toggle">☰</button>
+      <div class="topbar-right">
+        <span id="todayDate"></span>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="dashboard">
+
+      <div class="welcome-section">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL STUDY SPACE</p>
+          <h1>Hello, <span id="userName">Student</span> 👋</h1>
+          <p>Ready to make today productive?</p>
+          <button class="edit-name-btn" id="dashboardEditName">
+            ✏️ Edit your name
+          </button>
+        </div>
+        <div class="welcome-illustration">📚</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon purple">📋</div>
+          <div>
+            <p>Total Tasks</p>
+            <h2 id="totalTasks">0</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">✔️</div>
+          <div>
+            <p>Completed</p>
+            <h2 id="completedTasks">0</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">⏳</div>
+          <div>
+            <p>Pending</p>
+            <h2 id="pendingTasks">0</h2>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon blue">📝</div>
+          <div>
+            <p>My Notes</p>
+            <h2 id="totalNotes">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <!-- TASKS -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Today's Tasks</h3>
+              <p>Your daily productivity</p>
+            </div>
+            <button class="text-button" data-goto="tasks">View All →</button>
+          </div>
+
+          <div id="dashboardTaskList" class="task-list"></div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Quick Actions</h3>
+              <p>Jump into your workflow</p>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-action" data-goto="tasks">
+              <span>➕</span>
+              <strong>Add Task</strong>
+            </button>
+
+            <button class="quick-action" data-goto="notes">
+              <span>📝</span>
+              <strong>Write Notes</strong>
+            </button>
+
+            <button class="quick-action" data-goto="timetable">
+              <span>📅</span>
+              <strong>My Timetable</strong>
+            </button>
+
+            <button class="quick-action" data-goto="focus">
+              <span>⏱️</span>
+              <strong>Focus Mode</strong>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MOTIVATION -->
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Study Motivation</h3>
+            <p>Keep moving forward</p>
+          </div>
+        </div>
+
+        <div class="motivation-card">
+          <span>✨</span>
+          <p id="motivationText">
+            Small progress every day leads to big results.
+          </p>
+          <button id="newQuoteBtn">New Quote ↻</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TASKS -->
+    <section class="page" id="tasks">
+
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">STAY ORGANIZED</p>
+          <h1>My Tasks ✅</h1>
+          <p>Manage your daily assignments and goals.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <form id="taskForm" class="task-form">
+          <input
+            id="taskInput"
+            type="text"
+            placeholder="What do you need to do?"
+            required
+          >
+
+          <select id="taskPriority">
+            <option value="Medium">Medium Priority</option>
+            <option value="High">High Priority</option>
+            <option value="Low">Low Priority</option>
+          </select>
+
+          <input id="taskDate" type="date">
+
+          <button class="primary-btn" type="submit">
+            + Add Task
+          </button>
+        </form>
+      </div>
+
+      <div class="task-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+      </div>
+
+      <div class="panel">
+        <div id="taskList" class="task-list"></div>
+      </div>
+
+    </section>
+
+    <!-- NOTES -->
+    <section class="page" id="notes">
+
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">YOUR KNOWLEDGE SPACE</p>
+          <h1>My Notes 📝</h1>
+          <p>Save important information and ideas.</p>
+        </div>
+
+        <button id="addNoteBtn" class="primary-btn">
+          + New Note
+        </button>
+      </div>
+
+      <div id="noteEditor" class="panel note-editor hidden">
+        <h3 id="noteEditorHeading">Create Note</h3>
+
+        <input
+          type="text"
+          id="noteTitle"
+          placeholder="Note title"
+        >
+
+        <textarea
+          id="noteContent"
+          rows="7"
+          placeholder="Write your notes here..."
+        ></textarea>
+
+        <div class="editor-actions">
+          <button id="saveNoteBtn" class="primary-btn">
+            Save Note
+          </button>
+
+          <button id="cancelNoteBtn" class="secondary-btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div id="notesGrid" class="notes-grid"></div>
+
+    </section>
+
+    <!-- TIMETABLE -->
+    <section class="page" id="timetable">
+
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">PLAN YOUR DAY</p>
+          <h1>Timetable 📅</h1>
+          <p>Organize your classes and study sessions.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <form id="scheduleForm" class="schedule-form">
+
+          <input
+            id="scheduleSubject"
+            type="text"
+            placeholder="Subject / Activity"
+            required
+          >
+
+          <select id="scheduleDay" required>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+
+          <input id="scheduleTime" type="time" required>
+
+          <button class="primary-btn" type="submit">
+            + Add Schedule
+          </button>
+        </form>
+      </div>
+
+      <div id="timetableContainer" class="timetable-container"></div>
+
+    </section>
+
+    <!-- FOCUS TIMER -->
+    <section class="page" id="focus">
+
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">FOCUS ON YOUR GOALS</p>
+          <h1>Focus Timer ⏱️</h1>
+          <p>Study with concentration and take breaks.</p>
+        </div>
+      </div>
+
+      <div class="panel focus-panel">
+
+        <div class="focus-mode">
+          <button
+            class="focus-mode-btn active"
+            data-minutes="25"
+            data-mode="Focus"
+          >
+            Focus
+          </button>
+
+          <button
+            class="focus-mode-btn"
+            data-minutes="5"
+            data-mode="Short Break"
+          >
+            Short Break
+          </button>
+
+          <button
+            class="focus-mode-btn"
+            data-minutes="15"
+            data-mode="Long Break"
+          >
+            Long Break
+          </button>
+        </div>
+
+        <p id="focusModeText">Focus Session</p>
+
+        <div class="timer-circle">
+          <div class="timer-inner">
+            <h1 id="timerDisplay">25:00</h1>
+            <p>Stay focused</p>
+          </div>
+        </div>
+
+        <div class="timer-controls">
+          <button id="timerStartBtn" class="primary-btn">
+            ▶ Start
+          </button>
+
+          <button id="timerResetBtn" class="secondary-btn">
+            ↻ Reset
+          </button>
+        </div>
+
+        <p class="focus-tip">
+          💡 Put your phone away and focus on one task.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- NAME MODAL -->
+<div class="name-modal" id="nameModal">
+  <div class="name-modal-box">
+    <div class="name-modal-icon">🎓</div>
+
+    <h2>Welcome to Student Hub!</h2>
+
+    <p>Let's personalize your study space.</p>
+
+    <input
+      type="text"
+      id="nameEntry"
+      placeholder="Enter your name"
+      maxlength="30"
+      autocomplete="given-name"
+    >
+
+    <button id="saveNameBtn" class="primary-btn">
+      Let's Get Started →
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- APP SCRIPT -->
+<script src="./js/app.js"></script>
+
+<!-- SERVICE WORKER REGISTRATION -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then((registration) => {
+          console.log("Student Hub Service Worker registered:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    });
+  }
+</script>
+
+</body>
+</html>
